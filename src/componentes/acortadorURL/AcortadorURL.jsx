@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { useNavigate, Link } from "react-router-dom";
 import useReducerApp from "../../context/stroreReducer";
 import CreateForm from "./CreateForm";
 import Items from "./Items";
@@ -16,7 +15,6 @@ export default function AcortadorURL() {
 
 
   const handleDelete = (id) => {
-    console.log(id);
     dispatch({ type: "DELETE", data: id });
   };
   return (

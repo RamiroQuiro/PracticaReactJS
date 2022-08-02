@@ -18,7 +18,7 @@ const taskReducer= createSlice({
     initialState,
     reducers:{
         addTask:(state,action)=>{
-            const {title,description}=action.payload;
+            const {title}=action.payload;
             if(title.length>0){
                 state.push(action.payload)
             }else{

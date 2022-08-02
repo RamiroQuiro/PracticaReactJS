@@ -11,6 +11,7 @@ export function reducer(state, action){
             return addView(state,action)
         case 'DELETE':
             return delet(state,action)
+       
 
             default:
 

@@ -8,13 +8,14 @@ function getrandom() {
   }
 
 export function add (state, action) {
+
   const url=action.data.url;
   const iniciales=action.data.iniciales;
   const personalizar=action.data.personalizar;
      const shortUrl= getrandom();
-  const temp =[...state?.items]
+  const temp =[...state.items]
   if(iniciales&&personalizar){
-    const hayPersonalizacion=temp.find(item=>item.shortUrl===iniciales+"-"+personalizar);
+    const hayPersonalizacion=temp?.find(item=>item.shortUrl===iniciales+"-"+personalizar);
     if(hayPersonalizacion){
         toast.error('Ya existe una url con esas iniciales y personalizacion');
         return { items:[...temp]}
@@ -57,15 +58,17 @@ export function add (state, action) {
 }
 
 
-
 }
 
 export function load(state,action){
 const data=localStorage.getItem('urls');
 if(data){ const temp=JSON.parse(data)
 return {items:[...temp]}
+}else{
+  localStorage.setItem('urls',JSON.stringify([]));
 }
 }
+
 
 export function addView(state,action){
     const data=localStorage.getItem('urls');
@@ -83,7 +86,6 @@ export const delet =(state,action)=>{
     if(data){
         const temp=JSON.parse(data)   
         const item=temp.find(item=>item.shortUrl===action.data);
-        console.log(temp.findIndex(item=>item.shortUrl===action.data),"y",temp.indexOf(item))
         temp.splice(temp.indexOf(item),1)
         localStorage.setItem('urls',JSON.stringify(temp))
         return {items:[...temp]}
