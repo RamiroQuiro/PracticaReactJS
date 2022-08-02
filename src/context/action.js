@@ -12,7 +12,7 @@ export function add (state, action) {
   const iniciales=action.data.iniciales;
   const personalizar=action.data.personalizar;
      const shortUrl= getrandom();
-  const temp =[...state.items]
+  const temp =[...state?.items]
   if(iniciales&&personalizar){
     const hayPersonalizacion=temp.find(item=>item.shortUrl===iniciales+"-"+personalizar);
     if(hayPersonalizacion){
