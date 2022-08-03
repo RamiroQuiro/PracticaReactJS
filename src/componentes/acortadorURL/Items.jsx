@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import {Link} from 'react-router-dom'
-import toast, { Toaster } from 'react-hot-toast';
+import toast, {  } from 'react-hot-toast';
 import imageurl from '../../img/worldwide.gif'
 
 
@@ -10,6 +10,8 @@ const handleCopy = () => {
   navigator.clipboard.writeText(shortURL.current.innerText)
   toast.success('Copiado al portapapeles')
 }
+const host=window.location.host
+
   return (
     <div
     key={i}
@@ -22,7 +24,7 @@ const handleCopy = () => {
       Short URL{" "}<span onClick={handleCopy}>📋</span>
       <Link ref={shortURL} to={`/u/${item.shortUrl}`} className="font-bold" target="_blank">
         {" "}
-        http://localhost:3000/u/{item.shortUrl}
+        http://{host}/u/{item.shortUrl}
       </Link>
       
     </div>
