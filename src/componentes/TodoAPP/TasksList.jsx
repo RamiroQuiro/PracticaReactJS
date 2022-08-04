@@ -18,9 +18,9 @@ toast.success("Tarea Completada")
 }
 
   return (
-    <div className="flex flex-col gap-4 items-center text-gray-800  duration-500 justify-center w-1/2 h-full mx-auto">
+    <div className="flex flex-col gap-4 items-center text-gray-800  duration-500 justify-center md:w-1/2 w-10/12 h-full mx-auto">
       
-      <div className="w-11/12 rounded-lg m-2 p-5  bg-gray-50/5 backdrop-blur-sm duration-500  hover:shadow-lg hover:shadow-[#22272E]/50  flex flex-col gap-1">
+      <div className="md:w-11/12 w-full rounded-lg m-2 p-5  bg-gray-50/5 backdrop-blur-sm duration-500  hover:shadow-lg hover:shadow-[#22272E]/50  flex flex-col gap-1">
 
       {
         
@@ -29,7 +29,7 @@ toast.success("Tarea Completada")
           key={tasks.id}
           className={
             !tasks.completed?
-            "text-center  gap-2 flex py-2 px-2 justify-between items-center  duration-200 hover:bg-gradient-to-tr from-gray-50/10 via-transparent to-transparent border-b hover:-translate-y-1  hover:border-red-500/50 "
+            "text-center  gap-2 flex p-2 justify-between items-center  duration-200 hover:bg-gradient-to-tr from-gray-50/10 via-transparent to-transparent border-b hover:-translate-y-1  hover:border-red-500/50 "
           :
           "text-center  gap-2 flex py-2 px-2 justify-between items-center bg-gradient-to-tr from-lime-800/50 to-green-900/50 backdrop-blur-sm duration-300 "
           }

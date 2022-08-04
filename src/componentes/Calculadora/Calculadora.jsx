@@ -3,7 +3,7 @@ import './styles.css'
 import CalculadoraState, { useAppContext } from "../../context/Context";
 import BotoneraCalculator from "./BotoneraCalculator";
 import History from "./History";
-import calculadora from "../../img/calculadora.png";
+import calculadora from "../../img/svg/calculatorCard.svg";
 import ScreenCalculator from "./ScreenCalculator";
 export default function Calculadora() {
  
@@ -17,11 +17,12 @@ export default function Calculadora() {
   };
   return (
     <CalculadoraState>
-        <div className="flex  text-gray-50 bg-slate-100  justify-center items-center pt-16  h-screen containerCalculadora ">
-          <div className="flex bg-[#202020]/80 w-2/4 rounded-lg backdrop-blur-sm h-5/6 shadow-xl shadow-red-300/50">
+        <div className="flex  text-gray-50 bg-slate-100  justify-center items-center pt-16 md:px-0 px-5 h-full md:h-screen containerCalculadora ">
+          <div className="flex bg-[#202020]/80 md:w-2/4 lg:w-2/4 rounded-lg backdrop-blur-sm  lg:h-5/6 shadow-xl shadow-red-300/50">
           <div className="w-3/5 p-4">
             <div className=" font-black ">
-              <div className="text-2xl justify-center items-center text-yellow-500 flex gap-5"><img src={calculadora} className="w-10 rounded-lg" /> Caluladora ReactJS</div>
+              <div className="text-2xl justify-center items-center text-yellow-500 flex gap-5">
+                <img src={calculadora} alt="calculadora" className="w-10 rounded-lg" /> Caluladora ReactJS</div>
               <h2 className="text-xl text-center text-yellow-500">useContext</h2>
             </div>
             <ScreenCalculator />

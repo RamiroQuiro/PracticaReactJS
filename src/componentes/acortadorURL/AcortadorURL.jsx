@@ -20,7 +20,8 @@ export default function AcortadorURL() {
   return (
     <div className="flex flex-col text-gray-800 justify-center items-center pt-16 mainContainer ">
       <Toaster/>
-      <h1 className="text-6xl font-bold font-mono text-white ">Acortador URL </h1>
+      <h1 className="text-4xl py-2 font-mono text-white ">Acortador URL </h1>
+      <pre className="text-center font-medium bg-orange-300/50 rounded-lg p-1 "> • useReducer - useRef  ­• </pre>
       <div className="flex gap-10  flex-wrap md:justify-end justify-center items-center relative py-5  h-full w-full">
         <CreateForm dispatch={dispatch} />
 

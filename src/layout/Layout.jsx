@@ -1,16 +1,18 @@
 import React from "react";
 import {Outlet} from 'react-router-dom'
+import Footer from "../componentes/Footer";
 import Menu from "../componentes/Menu";
 
 export default function Layout() {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="">
       <header>
         <Menu/>
       </header>
       <main>
         <Outlet/>
       </main>
+      <Footer/>
     </div>
   );
 }

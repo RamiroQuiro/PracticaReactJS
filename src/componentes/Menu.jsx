@@ -1,5 +1,6 @@
 import {NavLink} from 'react-router-dom'
 import TodoAPP from '../img/svg/TodoAPP.svg'
+import home from '../img/svg/home.svg'
 import calculator from '../img/svg/calculator.svg'
 import shortURL from '../img/svg/shortURL.svg'
 
@@ -11,7 +12,12 @@ const styles={
   span:"duration-300 group-hover:translate-y-3 opacity-0 group-hover:opacity-100 font-medium translate-y-6 text-orange-600 delay-100 ",
 }
 
-const menu=[{
+const menu=[
+  {
+    name:"Home",
+    path:"/",
+    img:home,
+  },{
   name:"TodoAPP",
   path:"/TodoAPP",
   img:TodoAPP,
@@ -32,13 +38,13 @@ const menu=[{
 
   return (
     <div className='flex w-screen mx-auto justify-center items-center fixed z-50 text-gray-700'>
-        <nav className='flex md:w-4/12 justify-around items-center text-sm font-bold  shadow-lg  overflow-y-hidden h-9 hover:h-12 -translate-y-2.5 hover:translate-y-0 duration-300 bg-gradient-to-tr from-gray-50/80 via-gray-50/80 to-gray-200/70 backdrop-blur-sm rounded-b-3xl'>
+        <nav className='flex md:w-4/12 justify-around items-center text-sm font-bold py-6 shadow-lg  overflow-y-hidden h-9 hover:h-14 -translate-y-2.5 hover:translate-y-0 duration-300 bg-gradient-to-tr from-gray-50/80 via-gray-50/80 to-gray-200/70 backdrop-blur-sm rounded-b-3xl'>
 
           {menu.map((item,index)=>(
             <NavLink to={item.path} 
             key={index}
             className={styles.NavLink}>
-              <img src={item.img} alt="home" className='absolute w-6 scale-75 group-hover:scale-100 group-hover:-translate-y-2 top-3 duration-200' />
+              <img src={item.img} alt="home" className='absolute w-6 scale-75 group-hover:scale-100 group-hover:-translate-y-2 top-4 duration-200' />
               <span className={styles.span}>{item.name}</span>
             </NavLink>
 

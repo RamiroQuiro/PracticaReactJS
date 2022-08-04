@@ -46,12 +46,12 @@ const handleEdit=(e)=>{
 
 
   return (
-    <div className='flex mb-5 mx-auto text-gray-800 left-0 w-1/2 items-center justify-center'>
+    <div className='flex mb-5 mx-auto text-gray-800 left-0 md:w-1/2 w-10/12 items-center justify-center'>
     <form 
     onSubmit={(e)=>e.preventDefault()}
-    className=' w-11/12 text-gray-200 rounded-lg  gap-3 flex flex-col items-center'>
+    className=' md:w-11/12 w-full text-gray-200 rounded-lg  gap-3 flex flex-col items-center'>
         <h1 className='font-bold text-2xl  '>Formulario de Tarea</h1>
-        <div className='w-full flex relative items-center'><input onChange={handleChange} value={task.title} type="text" name='title'  className='text-sm bg-gray-100 px-5 py-1  w-full rounded-md text-gray-800 focus:bg-indigo-200 focus:outline-none ' placeholder="✍️ Agregar Tarea..."/><span className=' p-0.5 rounded-full absolute right-4 cursor-pointer active:animate-ping ' onClick={!taskEdit?handleSubmit:handleEdit}><img src={!taskEdit? agregarTask : editarTask} alt="agregarTask" className=''/></span></div>
+        <div className='w-full flex relative items-center'><input onChange={handleChange} value={task.title} type="text" name='title'  className='text-sm bg-gray-100 px-5 py-2  w-full rounded-md text-gray-800 focus:bg-indigo-200 focus:outline-none ' placeholder="✍️ Agregar Tarea..."/><span className=' p-0.5 rounded-full absolute right-4 cursor-pointer active:animate-ping ' onClick={!taskEdit?handleSubmit:handleEdit}><img src={!taskEdit? agregarTask : editarTask} alt="agregarTask" className=''/></span></div>
     </form>
     </div>
   )

@@ -23,7 +23,7 @@ export default function CreateForm({ dispatch }) {
   };
 
   return (
-    <div className="flex flex-col mt-5 md:fixed top-1/4 md:left-20 justify-around items-center h-1/2 ">
+    <div className="flex flex-col mt-5 md:fixed top-1/3 md:left-20 justify-around items-center h-1/2 ">
       <form className="p-3 rounded-lg gap-3 bg-white/50 flex flex-col  backdrop-blur-sm justify-around items-center">
         <label htmlFor="acortador" className=" font-bold ">
           Ingrese URL a acortar
@@ -33,7 +33,7 @@ export default function CreateForm({ dispatch }) {
           <span className="scale-150">⚔</span>{" "}
           <input
             type="text"
-            className=" inline-block py-2 px-1 rounded-lg border ring-0 border-orange-500 bg-blue-100/80 focus:border-0 w-full"
+            className=" inline-block py-2 px-1 rounded-lg border border-orange-500 bg-blue-100/80 focus:outline-none focus:ring-1 focus:ring-orange-500/80 w-full"
             name="url"
             value={url.url}
             onChange={handleChange}
@@ -50,7 +50,7 @@ export default function CreateForm({ dispatch }) {
             name="iniciales"
             value={url.iniciales}
             maxLength={"4px"}
-            className=" inline-block py-2 px-1 rounded-lg border border-orange-500 bg-blue-100/80 focus:border-0 w-full"
+            className=" inline-block py-2 px-1 rounded-lg border border-orange-500 bg-blue-100/80 focus:outline-none focus:ring-1 focus:ring-orange-500/80 w-full"
             onChange={handleChange}
           />
         </div>
@@ -65,7 +65,7 @@ export default function CreateForm({ dispatch }) {
             min={"4px"}
             value={url.personalizar}
             maxLength={"10px"}
-            className=" inline-block py-2 px-1 rounded-lg border border-orange-500 bg-blue-100/80 focus:border-0 w-full"
+            className=" inline-block py-2 px-1 rounded-lg border border-orange-500 bg-blue-100/80 focus:outline-none focus:ring-1 focus:ring-orange-500/80 w-full"
             onChange={handleChange}
           />
         </div>
