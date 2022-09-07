@@ -3,6 +3,7 @@ import TodoAPP from '../img/svg/TodoAPP.svg'
 import home from '../img/svg/home.svg'
 import calculator from '../img/svg/calculator.svg'
 import shortURL from '../img/svg/shortURL.svg'
+import galeria from '../img/svg/galeria.svg'
 
 export default function Menu() {
 
@@ -32,7 +33,12 @@ const menu=[
   name:"ShortURL",
   path:"/acortador",
   img:shortURL,
-}
+},
+{
+  name:"Galeria",
+  path:"/galeriaTailwinsCss",
+  img:galeria,
+},
 ]
 
 

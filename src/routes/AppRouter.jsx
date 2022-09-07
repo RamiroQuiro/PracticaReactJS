@@ -7,6 +7,8 @@ import Redirect from '../componentes/acortadorURL/Redirect'
 import Layout from '../layout/Layout'
 import Home from '../componentes/Home'
 import Calculadora from '../componentes/Calculadora/Calculadora'
+import Tiktok from '../componentes/TikTok/Tiktok'
+import GaleriaNoticias from '../componentes/GaleriaFotos/GaleriaNoticias'
 
 export default function AppRouter() {
 
@@ -19,6 +21,7 @@ export default function AppRouter() {
       <Route path="acortador" element={<AcortadorURL />} />
       <Route path='/u/:url' element={<Redirect/>}/>
       <Route path='calculadora' element={<Calculadora/>}/>
+      <Route path='galeriaTailwinsCss' element={<GaleriaNoticias/>}/>
      
       <Route path="*" element={<NotFound />} />
     </Route>
