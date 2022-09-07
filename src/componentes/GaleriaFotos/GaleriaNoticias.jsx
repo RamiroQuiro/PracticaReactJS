@@ -60,7 +60,7 @@ export default function GaleriaNoticias() {
   ];
 
   return (
-    <div className="flex w-full py-16 min-h-full bg-white-500/50 bg-gradient-to-tr from-sky-100 to-neutral-100  flex-col justify-around items-center">
+    <div className="flex w-full py-16 min-h-full bg-white-500/50 bg-gradient-to-tr from-red-100 to-neutral-200  flex-col justify-around items-center">
       {/* <IconCircle
         colorFill={"#A7CFFD50"}
         className="absolute right-16 w-96 h-96 top-0 bac"
