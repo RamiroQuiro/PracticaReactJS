@@ -39,6 +39,11 @@ const menu=[
   path:"/galeriaTailwinsCss",
   img:galeria,
 },
+{
+  name:"Galeria",
+  path:"/canvas",
+  img:galeria,
+},
 ]
 
 

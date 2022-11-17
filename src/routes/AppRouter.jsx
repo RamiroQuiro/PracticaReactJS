@@ -9,6 +9,7 @@ import Home from '../componentes/Home'
 import Calculadora from '../componentes/Calculadora/Calculadora'
 import Tiktok from '../componentes/TikTok/Tiktok'
 import GaleriaNoticias from '../componentes/GaleriaFotos/GaleriaNoticias'
+import CanvasSite from '../componentes/Canvas/CanvasSite'
 
 export default function AppRouter() {
 
@@ -22,6 +23,7 @@ export default function AppRouter() {
       <Route path='/u/:url' element={<Redirect/>}/>
       <Route path='calculadora' element={<Calculadora/>}/>
       <Route path='galeriaTailwinsCss' element={<GaleriaNoticias/>}/>
+      <Route path='canvas' element={<CanvasSite/>}/>
      
       <Route path="*" element={<NotFound />} />
     </Route>
