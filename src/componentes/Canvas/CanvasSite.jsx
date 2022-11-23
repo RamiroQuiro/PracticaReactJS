@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Canvas from "./Canvas";
 import cuadrado from "../../img/svg/square.svg";
 import circulo from "../../img/svg/circle.svg";
@@ -7,40 +7,55 @@ import brush from "../../img/svg/brush.svg";
 import erase from "../../img/svg/erase.svg";
 export default function Lienzo() {
   const [setupCanvas, setSetupCanvas] = useState({});
-
-  const handleChange = (e) => {
-    setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
-  };
-
-  const downloadImage = () => {};
-
+const [activeOption, setActiveOption] = useState(false)
+const [selectTools,setSelectTools]=useState(false)
   const shapes = [
-    {
+    {id:1,
       imagen: cuadrado,
       descripcion: "Cuadrado",
     },
-    {
+    {id:2,
       imagen: circulo,
       descripcion: "Circulo",
     },
-    {
+    {id:3,
       imagen: triangle,
       descripcion: "Triangulo",
     },
-    {
+    {id:4,
       imagen: brush,
       descripcion: "Pincel",
     },
-    {
+    {id:5,
       imagen: erase,
       descripcion: "Borrador",
     },
 
   ];
 
+  const handleChange = (e) => {
+    console.log(e)
+    setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
+  };
+
+  const drawRect=()=>{
+
+  }
+  const clearCanvas = () => {};
+  const downloadImage = () => {};
+  const shapesSelect = (i) => {
+    setActiveOption(!activeOption)
+    setSelectTools(i)
+  };
+
+
+
   const ItemsMenu = ({ imagen, descripcion }) => {
     return (
-      <div className="w-full inline-block cursor-pointer  hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg">
+      <div 
+      onClick={()=>shapesSelect(descripcion)}
+      
+      className={`  w-full inline-block cursor-pointer  hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg`}>
         <img
           src={imagen}
           alt="cuadrado"
@@ -62,7 +77,9 @@ export default function Lienzo() {
                 <ItemsMenu
                   imagen={element.imagen}
                   descripcion={element.descripcion}
-                  key={i}/>
+                  key={i}
+                  />
+                
               ))}
               <label
                 htmlFor="fillColor"
@@ -72,7 +89,7 @@ export default function Lienzo() {
                   type="checkbox"
                   name="fillColor"
                   id="fillColor"
-                  className="  mx-2 inline-block fill-gray-800 checked:bg-fuchsia-500"
+                  className="  mx-2 inline-block fill-gray-800 checked:bg-fuchsia-500 text-sm"
                 />
                 Relleno Formas
               </label>
@@ -99,11 +116,65 @@ export default function Lienzo() {
             <div className="w-full inline-block cursor-pointer -mt-2">
             <h2 className="font-bold">Colores</h2>
             <ul className="options flex w-full items-center justify-around">
-              <li className="w-5 h-5 bg-gray-200 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full before:border-2 hover:before:border-gray-400"></li>
-              <li className="w-5 h-5 bg-gray-900 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"></li>
-              <li className="w-5 h-5 bg-blue-500 rounded-full mt-2 shadow-sm relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"></li>
-              <li className="w-5 h-5 bg-green-500 rounded-full mt-2 relative shadow-sm before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"></li>
-              <li className="w-5 h-5 bg-red-500 rounded-full mt-2 relative shadow-sm before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"></li>
+              <input
+              type={"radio"}
+              onClick={handleChange}
+               name="color"
+               value={"#fff"}
+              className="w-5 h-5 bg-gray-200 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full before:border-2 hover:before:border-gray-400"/>
+
+              <label
+                className="w-5 h-5  bg-gray-900 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"
+              
+              >
+
+              <input
+              type={"radio"}
+              onClick={handleChange}
+               name="color"
+               value={"#111"}
+               className="invisible"
+               />
+              </label>
+              <label
+                className="w-5 h-5  bg-blue-500 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"
+              
+              >
+
+              <input
+              type={"radio"}
+              onClick={handleChange}
+               name="color"
+               value={"#3B82F6"}
+               className="invisible"
+               />
+              </label>
+              <label
+                className="w-5 h-5  bg-green-600 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2"
+              
+              >
+
+              <input
+              type={"radio"}
+              onClick={handleChange}
+               name="color"
+               value={"#16A34A"}
+               className="invisible"
+               />
+              </label>
+              <label
+                className="w-5 h-5  bg-red-500 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5  before:absolute before:rounded-full hover:before:border-2"
+              
+              >
+
+              <input
+              type={"radio"}
+              onClick={handleChange}
+               name="color"
+               value={"#EF4444"}
+               className="invisible"
+               />
+              </label>
             </ul>
          
 </div>
@@ -112,6 +183,7 @@ export default function Lienzo() {
           </div>
         </div>
         <Canvas
+        selectTools={selectTools}
           className={"border-2 rounded mx-auto bg-white "}
           setupCanvas={setupCanvas}
           height={550}
