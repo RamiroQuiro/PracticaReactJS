@@ -4,10 +4,9 @@ export const useOnDraw = (onDraw) => {
   const canvasRef = useRef(null);
   const isDrawingRef = useRef(false);
   const prevPointRef = useRef(null);
-  const mouseDownListenerRef=useRef(null)
+const startPoitRef=useRef(null)
   const mouseMoveListenerRef = useRef(null);
   const mouseUpListenerRef = useRef(null);
-
   const setCanvasRef = (ref) => {
     canvasRef.current = ref;
   };
@@ -30,28 +29,16 @@ export const useOnDraw = (onDraw) => {
       }
     };
     function initMouseMoveListener() {
-
       const mouseMoveListener = (e) => {
+        const point = computePointInCanvas(e.clientX, e.clientY);
         if (isDrawingRef.current && canvasRef.current) {
-          const point = computePointInCanvas(e.clientX, e.clientY);
           const ctx = canvasRef.current.getContext("2d");
           if (onDraw) onDraw(ctx, point, prevPointRef.current);
-          prevPointRef.current = point;
         }
+        prevPointRef.current = point;
       };
       mouseMoveListenerRef.current = mouseMoveListener;
       window.addEventListener("mousemove", mouseMoveListener);
-    }
-
-    function startDownMousse(e){
-
-      const listener=()=>{
-        mouseDownListenerRef.current=listener
-      }
-      mouseUpListenerRef.current = listener;
-      window.addEventListener("mousedown", listener);
-        console.log({x:e.clientX,
-        y:e.clientY})
     }
 
     function initMouseUpListener() {
@@ -70,7 +57,6 @@ export const useOnDraw = (onDraw) => {
         window.removeEventListener("mouseup", mouseUpListenerRef.current);
       }
     };
-    startDownMousse()
     initMouseMoveListener();
     initMouseUpListener();
 

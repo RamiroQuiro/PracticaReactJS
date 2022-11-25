@@ -34,7 +34,6 @@ const [selectTools,setSelectTools]=useState(false)
   ];
 
   const handleChange = (e) => {
-    console.log(e)
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
   };
 

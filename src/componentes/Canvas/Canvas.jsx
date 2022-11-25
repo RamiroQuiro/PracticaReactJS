@@ -10,39 +10,38 @@ export default function Canvas({
   selectTools,
 }) {
   const [downMousse, setDownMousse] = useState(false);
-  const puntoDePartida=(e)=>{
-    setDownMousse({...downMousse,x:e.clientX,y:e.clientY})
-  }
+  const puntoDePartida = (e) => {
+    console.log(downMousse);
+    setDownMousse({ ...downMousse, x: e.x, y: e.y });
+  };
 
   const { onCanvasMouseDown, setCanvasRef } = useOnDraw(onDraw);
-console.log(onCanvasMouseDown)
   function dibujarLinea(start, end, ctx, color, width) {
     start = start ?? end;
-    ctx.beginPath();
     ctx.style = color;
-    ctx.lineWidth = width || 10;
+    ctx.lineWidth = width;
     ctx.strokeStyle = color;
     ctx.moveTo(start.x, start.y);
     ctx.lineTo(end.x, end.y);
     ctx.stroke();
 
     ctx.fillStyle = color;
-    ctx.beginPath();
     ctx.arc(start.x, start.y, width, 0, 2 * Math.PI);
     ctx.fill();
   }
   const dibujarCuadrado = (prevPoint, point, ctx, color, width) => {
-    ctx.strokeStyle = color;
-    ctx.strokeRect(point.x, point.y, downMousse.x-point.x, downMousse.y-point.y);
+    ctx.strokeRect(point.x, point.y, prevPoint.x-point.x, prevPoint.y-point.y);
   };
-
-
+  
   const dibujarLine = (ctx, point) => {
     ctx.lineTo(point.x, point.y);
     ctx.stroke();
   };
-
+  
   function onDraw(ctx, point, prevPoint) {
+    ctx.beginPath()
+    let snapshot=ctx.getImageData(0,0,)
+
     if (!selectTools) return;
     switch (selectTools) {
       case "Cuadrado":
