@@ -1,41 +1,80 @@
-import React, { useState } from "react";
-import Canvas from "../componentes/Canvas";
-export default function PaintDraw() {
-  const [setupCanvas, setSetupCanvas] = useState({});
+import { useRef } from "react";
+import { useEffect, useState } from "react";
 
-  const handleChange = (e) => {
-    setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
+export default function PaintDraw({
+  width,
+  height,
+  className,
+  setupCanvas,
+  selectTools,
+}) {
+  const [isDrawing, setIsDrawing] = useState(false);
+  const canvasRef = useRef(null);
+  const ctxRef = useRef(null);
+  const canvas = canvasRef.current;
+  const ctx = canvas?.getContext("2d");
+
+  useEffect(() => {
+
+if(!canvas)return
+
+
+
+  }, []);
+
+  //funciones
+  function draw(e) {
+    if (!isDrawing) return;
+    const point = computePointInCanvas(e.clientX, e.clientY);
+    line(ctx,setupCanvas,point)
+  }
+
+  const computePointInCanvas = (clientX, clientY) => {
+    if (canvasRef.current) {
+      const boundigRect = canvasRef.current.getBoundingClientRect();
+
+      return {
+        x: clientX - boundigRect.left,
+        y: clientY - boundigRect.top,
+      };
+    } else {
+    }
   };
 
 
-const downloadImage=()=>{
-  
+  function startDarwing(e) {
+    setIsDrawing(true);
+    ctx.beginPath()
+    ctx.lineWidth = setupCanvas.rangeTrazo;
+  }
+
+
+const line=(ctx,setupCanvas,point)=>{
+  ctx.style = setupCanvas.color;
+    ctx.strokeStyle = setupCanvas.color;
+    ctx.moveTo(point.x, point.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.stroke();
+
+    ctx.fillStyle = setupCanvas.color;
+    ctx.arc(point.x, point.y, setupCanvas.rangeTrazo, 0, 2 * Math.PI);
+    ctx.fill();
 }
 
 
+  function stopDrawing() {
+    setIsDrawing(false);
+  }
+
   return (
-    <div className="w-full bg-slate-900">
-      <div className="mx-auto py-20">
-        <input
-          onChange={handleChange}
-          type="color"
-          name="colorTrazo"
-          id="colorTrazo  "
-        />
-        <input
-          onChange={handleChange}
-          type="range"
-          name="rangeTrazo"
-          id="rangeTrazo"
-        />
-        <Canvas
-        className={"border-2 rounded-lg mx-auto"}
-          setupCanvas={setupCanvas}
-          height={500}
-          width={700}
-        />
-        <button onClick={downloadImage}>descargar imagen</button>
-      </div>
-    </div>
+    <canvas
+      onMouseMove={draw}
+      onMouseDown={startDarwing}
+      onMouseUp={stopDrawing}
+      className={className}
+      ref={canvasRef}
+    height={height}
+    width={width}
+    ></canvas>
   );
 }

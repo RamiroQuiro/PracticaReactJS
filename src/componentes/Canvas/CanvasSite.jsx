@@ -5,6 +5,7 @@ import circulo from "../../img/svg/circle.svg";
 import triangle from "../../img/svg/triangule.svg";
 import brush from "../../img/svg/brush.svg";
 import erase from "../../img/svg/erase.svg";
+import PaintDraw from "./PaintDraw";
 export default function Lienzo() {
   const [setupCanvas, setSetupCanvas] = useState({});
 const [activeOption, setActiveOption] = useState(false)
@@ -181,13 +182,21 @@ const [selectTools,setSelectTools]=useState(false)
             <button onClick={downloadImage} className=" w-full py-2 border-2 rounded-lg bg-blue-400 font-bold hover:bg-blue-500 text-white text-sm">Descargar Imagen</button>
           </div>
         </div>
-        <Canvas
-        selectTools={selectTools}
+
+
+        <PaintDraw selectTools={selectTools}
           className={"border-2 rounded mx-auto bg-white "}
           setupCanvas={setupCanvas}
           height={550}
           width={800}
         />
+        {/* <Canvas
+        selectTools={selectTools}
+          className={"border-2 rounded mx-auto bg-white "}
+          setupCanvas={setupCanvas}
+          height={550}
+          width={800}
+        /> */}
       </div>
     </div>
   );

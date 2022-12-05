@@ -10,6 +10,7 @@ export default function Canvas({
   selectTools,
 }) {
   const [downMousse, setDownMousse] = useState(false);
+  
   const puntoDePartida = (e) => {
     console.log(downMousse);
     setDownMousse({ ...downMousse, x: e.x, y: e.y });
@@ -40,7 +41,7 @@ export default function Canvas({
   
   function onDraw(ctx, point, prevPoint) {
     ctx.beginPath()
-    let snapshot=ctx.getImageData(0,0,)
+    let snapshot=ctx.getImageData(0,0,800,550)
 
     if (!selectTools) return;
     switch (selectTools) {
@@ -110,6 +111,7 @@ export default function Canvas({
 
   return (
     <canvas
+
       onMouseDown={onCanvasMouseDown}
       ref={setCanvasRef}
       className={className}
