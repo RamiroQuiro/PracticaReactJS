@@ -9,26 +9,30 @@ export default function PaintDraw({
   selectTools,
 }) {
   const [isDrawing, setIsDrawing] = useState(false);
+  const [prevPoint, setPrevPoint] = useState(null);
+  const [snapshot, setSnapshot] = useState(false);
   const canvasRef = useRef(null);
-  const ctxRef = useRef(null);
   const canvas = canvasRef.current;
   const ctx = canvas?.getContext("2d");
 
   useEffect(() => {
-
-if(!canvas)return
-
-
-
-  }, []);
+    if (!canvas) return;
+  }, [setupCanvas]);
 
   //funciones
   function draw(e) {
     if (!isDrawing) return;
     const point = computePointInCanvas(e.clientX, e.clientY);
-    line(ctx,setupCanvas,point)
+    ctx.putImageData(snapshot, 0, 0);
+    if (selectTools === "Pincel") {
+      line(ctx, setupCanvas, point, prevPoint);
+    } else if (selectTools === "Cuadrado") {
+      cuadrado(ctx, setupCanvas, point, prevPoint);
+    }else if (selectTools==='Circulo') {
+      circulo(ctx,setupCanvas,point,prevPoint)
+    }
   }
-
+  // funcion para marcar las coordenadas dentro del lienzo
   const computePointInCanvas = (clientX, clientY) => {
     if (canvasRef.current) {
       const boundigRect = canvasRef.current.getBoundingClientRect();
@@ -40,27 +44,63 @@ if(!canvas)return
     } else {
     }
   };
-
+  // funcion al clikear el mouse
 
   function startDarwing(e) {
     setIsDrawing(true);
-    ctx.beginPath()
+    const prevPointer = computePointInCanvas(e.clientX, e.clientY);
+    setPrevPoint(prevPointer);
+    ctx.beginPath();
     ctx.lineWidth = setupCanvas.rangeTrazo;
+    const snap = ctx.getImageData(0, 0, width, height);
+    setSnapshot(snap);
   }
 
-
-const line=(ctx,setupCanvas,point)=>{
-  ctx.style = setupCanvas.color;
+  // funciones de herramientas
+  //linea
+  const line = (ctx, setupCanvas, point, prevPoint) => {
+    ctx.lineWidth = setupCanvas.rangeTrazo ?? 2;
     ctx.strokeStyle = setupCanvas.color;
-    ctx.moveTo(point.x, point.y);
     ctx.lineTo(point.x, point.y);
     ctx.stroke();
+  };
+  // cuadrado
+  const cuadrado = (ctx, setupCanvas, point, prevPoint) => {
+    if (!setupCanvas.fillColor) {
+      ctx.style = setupCanvas.color;
+      ctx.strokeStyle = setupCanvas.color;
+      ctx.strokeRect(
+        point.x,
+        point.y,
+        prevPoint.x - point.x,
+        prevPoint.y - point.y
+      );
+    } else {
+      ctx.fillStyle = setupCanvas.color;
+      ctx.fillRect(
+        point.x,
+        point.y,
+        prevPoint.x - point.x,
+        prevPoint.y - point.y
+      );
+    }
+  };
+  // ciruclo
 
-    ctx.fillStyle = setupCanvas.color;
-    ctx.arc(point.x, point.y, setupCanvas.rangeTrazo, 0, 2 * Math.PI);
-    ctx.fill();
-}
-
+  const circulo=(ctx,setupCanvas,point,prevPoint)=>{
+    ctx.beginPath()
+    
+      const radius= Math.sqrt(Math.pow((prevPoint.x-point.x),2) + Math.pow((prevPoint.y-point.y),2) )
+      ctx.arc(prevPoint.x,prevPoint.y, radius,0,2*Math.PI)
+      if (!setupCanvas.fillColor) {
+        ctx.strokeStyle = setupCanvas.color;
+        ctx.stroke()
+        }
+        ctx.fillStyle = "blue";
+ctx.fill();
+      
+  
+  }
 
   function stopDrawing() {
     setIsDrawing(false);
@@ -73,8 +113,8 @@ const line=(ctx,setupCanvas,point)=>{
       onMouseUp={stopDrawing}
       className={className}
       ref={canvasRef}
-    height={height}
-    width={width}
+      height={height}
+      width={width}
     ></canvas>
   );
 }

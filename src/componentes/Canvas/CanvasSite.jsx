@@ -35,12 +35,14 @@ const [selectTools,setSelectTools]=useState(false)
   ];
 
   const handleChange = (e) => {
+    
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
   };
 
-  const drawRect=()=>{
-
+  const handleCheck=(e)=>{
+    setSetupCanvas({...setupCanvas,[e.target.name]:e.target.checked})
   }
+
   const clearCanvas = () => {};
   const downloadImage = () => {};
   const shapesSelect = (i) => {
@@ -86,6 +88,7 @@ const [selectTools,setSelectTools]=useState(false)
                 className="w-full inline-block  p-2 font-medium cursor-pointer"
               >
                 <input
+                   onChange={handleCheck}
                   type="checkbox"
                   name="fillColor"
                   id="fillColor"
