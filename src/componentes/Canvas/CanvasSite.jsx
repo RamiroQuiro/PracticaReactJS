@@ -39,17 +39,21 @@ export default function Lienzo() {
       return;
     }
     img.src = previewURL;
-  }, [previewURL, img]);
+  }, [previewURL, img,setupCanvas]);
 
   const handleCargarenCanvasImagen = () => {
-    setFile(false)
-    setPreviewURL(false)
+    setFile(false);
+    setPreviewURL(false);
   };
 
   const handleChange = (e) => {
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
+    
   };
-
+  const handleButton=(name)=>{
+    setSetupCanvas({ ...setupCanvas, [name]:true });
+    
+}
   const handleCheck = (e) => {
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.checked });
   };
@@ -81,6 +85,11 @@ export default function Lienzo() {
     setFile(file);
   };
 
+  const handleReset = (name) => {
+    setSetupCanvas({ ...setupCanvas, [name]: false });
+    setPreviewURL(false)
+    setFile(false)
+  };
   return (
     <div className="w-full bg-gradient-to-br py-20 from-sky-900/90 to-blue-500 flex items-center justify-around">
       <div className="flex gap- items-stretch justify-center">
@@ -198,16 +207,17 @@ export default function Lienzo() {
           </div>
         </div>
 
+        {setupCanvas&&
         <PaintDraw
           selectTools={selectTools}
-          className={"border-2 rounded mx-auto bg-white "}
+          className={"border-2 rounded mx-auto bg-white"}
           setupCanvas={setupCanvas}
           height={550}
           width={800}
-                toolsImage={selectTools?.toolsImage}
           img={img}
+          
         />
-
+        }
         <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
           <div className="mx-auto flex flex-col gap-3 mb-10 w-full font-medium">
             <div className="w-full inline-block cursor-pointer -mt-2">
@@ -241,17 +251,158 @@ export default function Lienzo() {
                   ></button>
                 )}
               </label>
-              <div className="w-full inline-block cursor-pointer -mt-2">
-              <h2 className="font-bold">Formas</h2>
-              <div className="flex w-full items-center justify-around">
-              <label className="w-5 h-5  bg-red-900 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full hover:before:border-2">
-                  <button
-                    onClick={handleChange}
-                    name="toolsImage"
-                    value="matrizRojo"
-                    className="invisible"
-                  />
-                </label>
+              <div className="w-full inline-block cursor-pointer ">
+                <h2 className="font-bold w-full text-sm mt-4 text-center  border-t-2">
+                  Manipulacion de Canales
+                </h2>
+                <div className="flex flex-col w-full items-center justify-around">
+                  <label className="text-red-500 my-1 text-sm">
+                    Canal Rojo
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="matrizRojo"
+                      value={setupCanvas?.matrizRojo}
+                      className=""
+                      min="0"
+                      max="255"
+                    />{" "}
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("matrizRojo")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                  <label className="text-green-500 my-1 text-sm">
+                    Canal Verde
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="matrizVerde"
+                      value={setupCanvas?.matrizVerde}
+                      min="0"
+                      max="255"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("matrizVerde")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                  <label htmlFor="matrizAzul" className="text-blue-500 my-1 text-sm">
+                    Canal Azul
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="matrizAzul"
+                      value={setupCanvas?.matrizAzul}
+                      min="0"
+                      max="255"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("matrizAzul")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                  {/* <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleButton("saturacion")}
+                    >
+                      saturacion
+                    </button> */}
+                    <label htmlFor="matrizAzul" className="text-gray-500 my-1 text-sm">
+                    Saturacion
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="saturacion"
+                      value={setupCanvas?.saturacion}
+                      min="1"
+                      max="15"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("saturacion")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                </div>
+              </div>
+              <div className="w-full inline-block cursor-pointer ">
+                <h2 className="font-bold w-full text-sm mt-4 text-center  border-t-2">
+                 Filtros
+                </h2>
+                <div className="flex flex-col w-full items-center justify-around">
+                    
+                    <button
+                      onClick={handleChange}
+                      name="filtro"
+                      className=""
+                     value={"blancoAndNegro"}
+                    >Blanco  y Negro</button>
+                  
+                  <label className="text-green-500 my-1 text-sm">
+                    Canal Verde
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="matrizVerde"
+                      value={setupCanvas?.matrizVerde}
+                      min="0"
+                      max="255"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("matrizVerde")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                  <label htmlFor="matrizAzul" className="text-blue-500 my-1 text-sm">
+                    Canal Azul
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="matrizAzul"
+                      value={setupCanvas?.matrizAzul}
+                      min="0"
+                      max="255"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("matrizAzul")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
+                  {/* <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleButton("saturacion")}
+                    >
+                      saturacion
+                    </button> */}
+                    <label htmlFor="matrizAzul" className="text-gray-500 my-1 text-sm">
+                    Saturacion
+                    <input
+                      type="range"
+                      onChange={handleChange}
+                      name="saturacion"
+                      value={setupCanvas?.saturacion}
+                      min="1"
+                      max="15"
+                    />
+                    <button
+                      className="w-full text-sm font-mono text-center -translate-y-2"
+                      onClick={() => handleReset("saturacion")}
+                    >
+                      Resetear Canal
+                    </button>
+                  </label>
                 </div>
               </div>
             </div>
