@@ -6,7 +6,9 @@ export default function PaintDraw({
   height,
   className,
   setupCanvas,
+  img,
   selectTools,
+  clearCanvas,toolsImage
 }) {
   const [isDrawing, setIsDrawing] = useState(false);
   const [prevPoint, setPrevPoint] = useState(null);
@@ -17,7 +19,7 @@ export default function PaintDraw({
 
   useEffect(() => {
     if (!canvas) return;
-  }, [setupCanvas]);
+  }, []);
 
   //funciones
   function draw(e) {
@@ -28,8 +30,14 @@ export default function PaintDraw({
       line(ctx, setupCanvas, point, prevPoint);
     } else if (selectTools === "Cuadrado") {
       cuadrado(ctx, setupCanvas, point, prevPoint);
-    }else if (selectTools==='Circulo') {
-      circulo(ctx,setupCanvas,point,prevPoint)
+    } else if (selectTools === "Circulo") {
+      circulo(ctx, setupCanvas, point, prevPoint);
+    } else if (selectTools === "Triangulo") {
+      triangulo(ctx, setupCanvas, point, prevPoint);
+    } else if (selectTools === "Borrador") {
+      borrador(ctx, setupCanvas, point, prevPoint);
+    } else if (selectTools === "limpiarLienzo") {
+      limpiarLienzo(ctx, width, height);
     }
   }
   // funcion para marcar las coordenadas dentro del lienzo
@@ -87,24 +95,96 @@ export default function PaintDraw({
   };
   // ciruclo
 
-  const circulo=(ctx,setupCanvas,point,prevPoint)=>{
-    ctx.beginPath()
-    
-      const radius= Math.sqrt(Math.pow((prevPoint.x-point.x),2) + Math.pow((prevPoint.y-point.y),2) )
-      ctx.arc(prevPoint.x,prevPoint.y, radius,0,2*Math.PI)
-      if (!setupCanvas.fillColor) {
-        ctx.strokeStyle = setupCanvas.color;
-        ctx.stroke()
-        }
-        ctx.fillStyle = "blue";
-ctx.fill();
-      
-  
-  }
+  const circulo = (ctx, setupCanvas, point, prevPoint) => {
+    ctx.beginPath();
 
+    const radius = Math.sqrt(
+      Math.pow(prevPoint.x - point.x, 2) + Math.pow(prevPoint.y - point.y, 2)
+    );
+    ctx.arc(prevPoint.x, prevPoint.y, radius, 0, 2 * Math.PI);
+    if (!setupCanvas.fillColor) {
+      ctx.strokeStyle = setupCanvas.color;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = setupCanvas.color;
+      ctx.fill();
+    }
+  };
+
+  //triangulo
+
+  const triangulo = (ctx, setupCanvas, point, prevPoint) => {
+    ctx.beginPath();
+    ctx.moveTo(prevPoint.x, prevPoint.y);
+    ctx.lineTo(point.x, point.y);
+    ctx.lineTo(prevPoint.x * 2 - point.x, point.y);
+    ctx.closePath();
+    if (!setupCanvas.fillColor) {
+      ctx.strokeStyle = setupCanvas.color;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = setupCanvas.color;
+      ctx.fill();
+    }
+  };
+
+  // borrador
+
+  const borrador = (ctx, setupCanvas, point, prevPoint) => {
+    ctx.fillStyle = "#505050";
+
+    ctx.fill();
+    ctx.stroke();
+    ctx.clearRect(0, 0, width, height);
+  };
   function stopDrawing() {
     setIsDrawing(false);
   }
+
+  // limpiar lienzo
+
+  const limpiarLienzo = () => {
+    ctx.clearRect(0, 0, width, height);
+  };
+
+  // cargar Imagen
+
+  const cargarIMG = (ctx, img, width, height,setupCanvas) => {
+    ctx.drawImage(img, 0, 0);
+
+
+  };
+
+  const matrizRojo=(ctx, img, width, height,setupCanvas)=>{
+
+   
+
+      ctx.drawImage(img, 0, 0);
+      
+      const imageData = ctx.getImageData(0, 0, img.width, img.height);
+      const { data } = imageData;
+      
+      for (let i = 0; i < data.length-1; i+=4) {
+        data[i+1]=255
+        
+      }
+      ctx.putImageData(imageData,0,0)
+
+  }
+  useEffect(() => {
+    if (!img) {
+      return;
+    }
+    cargarIMG(ctx, img, width, height,setupCanvas);
+    
+toolsImage&&
+console.log(toolsImage)
+matrizRojo(ctx, img, width, height,setupCanvas)
+  }, [ctx, height, img, width,setupCanvas]);
+
+  // herramienta de imagenes
+
+
 
   return (
     <canvas
