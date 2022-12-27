@@ -6,7 +6,7 @@ export default function PaintDraw({
   height,
   className,
   setupCanvas,
-  img,
+ 
   selectTools,
  
 }) {
@@ -19,7 +19,13 @@ export default function PaintDraw({
 
   useEffect(() => {
     if (!canvas) return;
+  
+    ctx.fillStyle="#ffffff"
+    ctx.fillRect(0,0,width,height)
+  
   }, []);
+
+
 
   //funciones
   function draw(e) {
@@ -38,6 +44,8 @@ export default function PaintDraw({
       borrador(ctx, setupCanvas, point, prevPoint);
     } else if (selectTools === "limpiarLienzo") {
       limpiarLienzo(ctx, width, height);
+    }else if (selectTools === "Pintar Lienzo") {
+      pintarLienzo(ctx,setupCanvas, width, height);
     }
   }
   // funcion para marcar las coordenadas dentro del lienzo
@@ -131,11 +139,10 @@ export default function PaintDraw({
   // borrador
 
   const borrador = (ctx, setupCanvas, point, prevPoint) => {
-    ctx.fillStyle = "#505050";
-
-    ctx.fill();
+    ctx.lineWidth = setupCanvas.rangeTrazo ?? 2;
+    ctx.strokeStyle = setupCanvas.lienzo;
+    ctx.lineTo(point.x, point.y);
     ctx.stroke();
-    ctx.clearRect(0, 0, width, height);
   };
   function stopDrawing() {
     setIsDrawing(false);
@@ -144,101 +151,18 @@ export default function PaintDraw({
   // limpiar lienzo
 
   const limpiarLienzo = () => {
-    ctx.clearRect(0, 0, width, height);
   };
+// pintar lienzo
+
+const pintarLienzo =(ctx,setupCanvas,width,height)=>{
+  ctx.fillStyle=setupCanvas.lienzo || "#ffffff"
+  ctx.fillRect(0,0,width,height)
+}
 
   // cargar Imagen
 
-  const cargarIMG = (ctx, img, width, height, setupCanvas) => {
-    ctx.drawImage(img, 0, 0);
-  };
 
-  const imagesTools = (ctx, img, width, height, setupCanvas) => {
-    if (setupCanvas.matrizRojo > 0) {
-      ctx.drawImage(img, 0, 0);
 
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      const { data } = imageData;
-
-      for (let i = 0; i < data.length - 1; i += 4) {
-        data[i + 0] = setupCanvas.matrizRojo;
-      }
-      ctx.putImageData(imageData, 0, 0);
-      setupCanvas.matrizRojo=false
-    }
-    
-    if (setupCanvas.matrizVerde >0) {
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      const { data } = imageData;
-
-      for (let i = 0; i < data.length - 1; i += 4) {
-        data[i + 1] = setupCanvas.matrizVerde;
-      }
-      ctx.putImageData(imageData, 0, 0);
-      setupCanvas.matrizVerde=false
-    }
-      if (setupCanvas.matrizAzul > 0) {
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      const { data } = imageData;
-
-      for (let i = 0; i < data.length - 1; i += 4) {
-        data[i + 2] = setupCanvas.matrizAzul;
-      }
-      ctx.putImageData(imageData, 0, 0);
-      setupCanvas.matrizAzul=false
-    }
-
-    if (setupCanvas.saturacion) {
-      ctx.drawImage(img, 0, 0);
-
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      const { data } = imageData;
-      
-      for (let i = 0; i < data.length - 1; i += 4) {
-        const avg=[data[i]+data[i+1]+data[i+2]]/setupCanvas.saturacion
-        data[i]=avg;
-        data[i+1]=avg
-        data[i+2]=avg
-      }
-      ctx.putImageData(imageData, 0, 0);
-      setupCanvas.saturacion=false
-    }
-  };
-
-const filtros=(ctx, img, width, height, setupCanvas)=>{
-  
-  if (setupCanvas.filtro==="blancoAndNegro") {
-    ctx.drawImage(img, 0, 0);
-
-    const imageData = ctx.getImageData(0, 0, img.width, img.height);
-    const { data } = imageData;
-    
-    for (let i = 0; i < data.length - 1; i += 4) {
-      const promedio= Math.round([data[i*4]+data[i*4+1]+data[i*4+2]]/3)
-      data[i*4]=promedio;
-      data[i*4+1]=promedio
-      data[i*4+2]=promedio
-    }
-    ctx.putImageData(imageData, 0, 0);
-  }
-}
-
-  useEffect(() => {
-    if (!img) {
-      return;
-    }
-    cargarIMG(ctx, img, width, height, setupCanvas);
-
-    imagesTools(ctx, img, width, height, setupCanvas);
-
-    filtros(ctx, img, width, height, setupCanvas);
-  }, [ img, setupCanvas]);
-
-  // herramienta de imagenes
 
   
   return (

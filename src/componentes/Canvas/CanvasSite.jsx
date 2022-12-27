@@ -4,10 +4,12 @@ import circulo from "../../img/svg/circle.svg";
 import triangle from "../../img/svg/triangule.svg";
 import brush from "../../img/svg/brush.svg";
 import erase from "../../img/svg/erase.svg";
+import paint from "../../img/svg/paint.svg";
 import PaintDraw from "./PaintDraw";
 import { useRef } from "react";
 export default function Lienzo() {
-  const [setupCanvas, setSetupCanvas] = useState({});
+  const [setupCanvas, setSetupCanvas] = useState({lienzo:"#ffffff"});
+  const [imagenesTools,setImagenesTools]=useState({})
   const [activeOption, setActiveOption] = useState(false);
   const [selectTools, setSelectTools] = useState(false);
   const [previewURL, setPreviewURL] = useState(false);
@@ -19,6 +21,7 @@ export default function Lienzo() {
     { id: 2, imagen: circulo, descripcion: "Circulo" },
     { id: 3, imagen: triangle, descripcion: "Triangulo" },
     { id: 4, imagen: brush, descripcion: "Pincel" },
+    { id: 4, imagen: paint, descripcion: "Pintar Lienzo" },
     { id: 5, imagen: erase, descripcion: "Borrador" },
   ];
 
@@ -32,6 +35,8 @@ export default function Lienzo() {
     };
 
     reader.readAsDataURL(file);
+
+    console.log(previewURL)
   }, [file]);
 
   useEffect(() => {
@@ -39,15 +44,20 @@ export default function Lienzo() {
       return;
     }
     img.src = previewURL;
-  }, [previewURL, img,setupCanvas]);
+  }, [previewURL, imagenesTools,img]);
 
   const handleCargarenCanvasImagen = () => {
     setFile(false);
     setPreviewURL(false);
+    setSetupCanvas(false)
   };
 
   const handleChange = (e) => {
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
+    
+  };
+  const handleToolsImagenes = (e) => {
+    setImagenesTools({ ...setupCanvas, [e.target.name]: e.target.value });
     
   };
   const handleButton=(name)=>{
@@ -59,24 +69,36 @@ export default function Lienzo() {
   };
 
   const downloadImage = () => {};
-  const shapesSelect = (i) => {
+  const shapesSelect = (descripcion,indice,setSelect,select) => {
     setActiveOption(!activeOption);
-    setSelectTools(i);
+    setSelectTools(descripcion,indice);
+    if(shapes[indice]?.descripcion===descripcion){
+      setSelect(true)
+      
+    }
   };
+  
+  const ItemsMenu = ({ imagen, descripcion,indice }) => {
+    const [select, setSelect] = useState(false)
+    
+    useEffect(()=>{
+        setSelect(false)
 
-  const ItemsMenu = ({ imagen, descripcion }) => {
+    },[select])
     return (
-      <div
-        onClick={() => shapesSelect(descripcion)}
-        className={`  w-full inline-block cursor-pointer  hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg`}
+      <label
+      htmlFor="selectTools"
+        onClick={() => shapesSelect(descripcion,indice,setSelect,select)}
+        className={`${select&& "bg-gray-500"}  w-full inline-block cursor-pointer group hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg`}
       >
+        <input type="radio" name="selectTools" id="" className="hidden " />
         <img
           src={imagen}
           alt="cuadrado"
-          className="w-4   mx-2 inline-block fill-gray-800 "
+          className="w-4   mx-2 inline-block  "
         />
         {descripcion}
-      </div>
+      </label>
     );
   };
 
@@ -91,7 +113,7 @@ export default function Lienzo() {
     setFile(false)
   };
   return (
-    <div className="w-full bg-gradient-to-br py-20 from-sky-900/90 to-blue-500 flex items-center justify-around">
+    <div className="w-full min-h-screen bg-gradient-to-br py-20 from-sky-900/90 to-blue-500 flex items-center justify-around">
       <div className="flex gap- items-stretch justify-center">
         <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
           <div className="mx-auto flex flex-col gap-3 mb-10 w-full font-medium">
@@ -102,6 +124,7 @@ export default function Lienzo() {
                   imagen={element.imagen}
                   descripcion={element.descripcion}
                   key={i}
+                  indice={i}
                 />
               ))}
               <label
@@ -192,6 +215,18 @@ export default function Lienzo() {
                 </label>
               </ul>
             </div>
+            <div className="w-full inline-block cursor-pointer -mt-2">
+              <h2 className="font-bold">Color del Lienzo</h2>
+              <ul className="options flex w-full justify-around">
+                <input
+                  type={"color"}
+                  onChange={handleChange}
+                  name="lienzo"
+                  value={setupCanvas.lienzo}
+                  className="w-5 h-5 bg-gray-200 shadow-sm rounded-full mt-2 relative before:content-[' '] before:w-[80%] before:h-[80%] before:left-0.5 before:top-0.5 before:absolute before:rounded-full before:border-2 hover:before:border-gray-400"
+                />
+              </ul>
+            </div>
             <button
               onClick={() => shapesSelect("limpiarLienzo")}
               className=" w-full py-2 border-2 rounded-lg font-bold hover:bg-gray-200 mt-4 text-sm"
@@ -207,18 +242,16 @@ export default function Lienzo() {
           </div>
         </div>
 
-        {setupCanvas&&
+      
         <PaintDraw
           selectTools={selectTools}
           className={"border-2 rounded mx-auto bg-white"}
           setupCanvas={setupCanvas}
           height={550}
           width={800}
-          img={img}
           
         />
-        }
-        <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
+    {/* <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
           <div className="mx-auto flex flex-col gap-3 mb-10 w-full font-medium">
             <div className="w-full inline-block cursor-pointer -mt-2">
               {previewURL && (
@@ -256,80 +289,65 @@ export default function Lienzo() {
                   Manipulacion de Canales
                 </h2>
                 <div className="flex flex-col w-full items-center justify-around">
-                  <label className="text-red-500 my-1 text-sm">
+                  <div className="text-red-500 my-1 text-sm">
                     Canal Rojo
                     <input
                       type="range"
-                      onChange={handleChange}
+                      onChange={handleToolsImagenes}
                       name="matrizRojo"
-                      value={setupCanvas?.matrizRojo}
+                      value={imagenesTools?.matrizRojo}
                       className=""
-                      min="0"
+                      min="1"
                       max="255"
                     />{" "}
-                    <button
+                     <button
                       className="w-full text-sm font-mono text-center -translate-y-2"
                       onClick={() => handleReset("matrizRojo")}
                     >
                       Resetear Canal
-                    </button>
-                  </label>
-                  <label className="text-green-500 my-1 text-sm">
+                    </button> 
+                  </div>
+                  <div className="text-green-500 my-1 text-sm">
                     Canal Verde
                     <input
                       type="range"
-                      onChange={handleChange}
+                      onChange={handleToolsImagenes}
                       name="matrizVerde"
-                      value={setupCanvas?.matrizVerde}
-                      min="0"
+                      value={imagenesTools?.matrizVerde}
+                      min="1"
                       max="255"
                     />
-                    <button
+                     <button
                       className="w-full text-sm font-mono text-center -translate-y-2"
                       onClick={() => handleReset("matrizVerde")}
                     >
                       Resetear Canal
-                    </button>
-                  </label>
-                  <label htmlFor="matrizAzul" className="text-blue-500 my-1 text-sm">
+                    </button> 
+                  </div>
+                  <div htmlFor="matrizAzul" className="text-blue-500 my-1 text-sm">
                     Canal Azul
                     <input
                       type="range"
-                      onChange={handleChange}
+                      onChange={handleToolsImagenes}
                       name="matrizAzul"
-                      value={setupCanvas?.matrizAzul}
-                      min="0"
+                      value={imagenesTools?.matrizAzul}
+                      min="1"
                       max="255"
                     />
-                    <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleReset("matrizAzul")}
-                    >
-                      Resetear Canal
-                    </button>
-                  </label>
-                  {/* <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleButton("saturacion")}
-                    >
-                      saturacion
-                    </button> */}
+                    
+                  </div>
+                  
                     <label htmlFor="matrizAzul" className="text-gray-500 my-1 text-sm">
                     Saturacion
                     <input
                       type="range"
-                      onChange={handleChange}
+                      onChange={handleToolsImagenes}
                       name="saturacion"
-                      value={setupCanvas?.saturacion}
+                      value={imagenesTools?.saturacion}
                       min="1"
                       max="15"
                     />
-                    <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleReset("saturacion")}
-                    >
-                      Resetear Canal
-                    </button>
+                  
                   </label>
                 </div>
               </div>
@@ -346,68 +364,12 @@ export default function Lienzo() {
                      value={"blancoAndNegro"}
                     >Blanco  y Negro</button>
                   
-                  <label className="text-green-500 my-1 text-sm">
-                    Canal Verde
-                    <input
-                      type="range"
-                      onChange={handleChange}
-                      name="matrizVerde"
-                      value={setupCanvas?.matrizVerde}
-                      min="0"
-                      max="255"
-                    />
-                    <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleReset("matrizVerde")}
-                    >
-                      Resetear Canal
-                    </button>
-                  </label>
-                  <label htmlFor="matrizAzul" className="text-blue-500 my-1 text-sm">
-                    Canal Azul
-                    <input
-                      type="range"
-                      onChange={handleChange}
-                      name="matrizAzul"
-                      value={setupCanvas?.matrizAzul}
-                      min="0"
-                      max="255"
-                    />
-                    <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleReset("matrizAzul")}
-                    >
-                      Resetear Canal
-                    </button>
-                  </label>
-                  {/* <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleButton("saturacion")}
-                    >
-                      saturacion
-                    </button> */}
-                    <label htmlFor="matrizAzul" className="text-gray-500 my-1 text-sm">
-                    Saturacion
-                    <input
-                      type="range"
-                      onChange={handleChange}
-                      name="saturacion"
-                      value={setupCanvas?.saturacion}
-                      min="1"
-                      max="15"
-                    />
-                    <button
-                      className="w-full text-sm font-mono text-center -translate-y-2"
-                      onClick={() => handleReset("saturacion")}
-                    >
-                      Resetear Canal
-                    </button>
-                  </label>
+                
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>/*}
         {/* <Canvas
         selectTools={selectTools}
           className={"border-2 rounded mx-auto bg-white "}
