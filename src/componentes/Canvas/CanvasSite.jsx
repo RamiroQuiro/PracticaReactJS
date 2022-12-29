@@ -8,11 +8,14 @@ import paint from "../../img/svg/paint.svg";
 import PaintDraw from "./PaintDraw";
 import { useRef } from "react";
 export default function Lienzo() {
-  const [setupCanvas, setSetupCanvas] = useState({lienzo:"#ffffff"});
-  const [imagenesTools,setImagenesTools]=useState({})
+  const [setupCanvas, setSetupCanvas] = useState({ lienzo: "#ffffff" });
+  const [imagenesTools, setImagenesTools] = useState({});
   const [activeOption, setActiveOption] = useState(false);
   const [selectTools, setSelectTools] = useState(false);
   const [previewURL, setPreviewURL] = useState(false);
+  const canvasRef = useRef(null);
+  const canvas = canvasRef.current;
+  const ctx = canvas?.getContext("2d");
   const imageRef = useRef(null);
   const img = imageRef.current;
   const [file, setFile] = useState(false);
@@ -36,7 +39,7 @@ export default function Lienzo() {
 
     reader.readAsDataURL(file);
 
-    console.log(previewURL)
+    console.log(previewURL);
   }, [file]);
 
   useEffect(() => {
@@ -44,74 +47,71 @@ export default function Lienzo() {
       return;
     }
     img.src = previewURL;
-  }, [previewURL, imagenesTools,img]);
+  }, [previewURL, imagenesTools, img]);
 
   const handleCargarenCanvasImagen = () => {
     setFile(false);
     setPreviewURL(false);
-    setSetupCanvas(false)
+    setSetupCanvas(false);
   };
 
   const handleChange = (e) => {
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.value });
-    
   };
   const handleToolsImagenes = (e) => {
     setImagenesTools({ ...setupCanvas, [e.target.name]: e.target.value });
-    
   };
-  const handleButton=(name)=>{
-    setSetupCanvas({ ...setupCanvas, [name]:true });
-    
-}
+  const handleButton = (name) => {
+    setSetupCanvas({ ...setupCanvas, [name]: true });
+  };
   const handleCheck = (e) => {
     setSetupCanvas({ ...setupCanvas, [e.target.name]: e.target.checked });
   };
 
-  const downloadImage = () => {};
-  const shapesSelect = (descripcion,indice,setSelect,select) => {
-    setActiveOption(!activeOption);
-    setSelectTools(descripcion,indice);
-    if(shapes[indice]?.descripcion===descripcion){
-      setSelect(true)
-      
-    }
+  const downloadImage = () => {
+    const link = document.createElement("a");
+    link.download = "CanvasSite.jpg";
+    link.href = canvas.toDataURL();
+    link.click();
   };
-  
-  const ItemsMenu = ({ imagen, descripcion,indice }) => {
-    const [select, setSelect] = useState(false)
-    
-    useEffect(()=>{
-        setSelect(false)
+  const shapesSelect = (descripcion) => {
+    setActiveOption(!activeOption);
+    setSelectTools(descripcion);
+  };
 
-    },[select])
+  const limpiarLienzo = (ctx, width, height) => {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
+  };
+
+  const ItemsMenu = ({ imagen, descripcion, indice }) => {
     return (
-      <label
-      htmlFor="selectTools"
-        onClick={() => shapesSelect(descripcion,indice,setSelect,select)}
-        className={`${select&& "bg-gray-500"}  w-full inline-block cursor-pointer group hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg`}
+      <div
+        onClick={() => {
+          shapesSelect(descripcion);
+        }}
+        className={`  w-full inline-block cursor-pointer group hover:bg-gray-500/50 hover:backdrop-blur-sm p-1 rounded-lg`}
       >
-        <input type="radio" name="selectTools" id="" className="hidden " />
         <img
           src={imagen}
           alt="cuadrado"
           className="w-4   mx-2 inline-block  "
         />
         {descripcion}
-      </label>
+      </div>
     );
   };
 
-  const handleInputFile = (e) => {
-    const file = e.target.files[0];
-    setFile(file);
-  };
+  // const handleInputFile = (e) => {
+  //   const file = e.target.files[0];
+  //   setFile(file);
+  // };
 
-  const handleReset = (name) => {
-    setSetupCanvas({ ...setupCanvas, [name]: false });
-    setPreviewURL(false)
-    setFile(false)
-  };
+  // const handleReset = (name) => {
+  //   setSetupCanvas({ ...setupCanvas, [name]: false });
+  //   setPreviewURL(false)
+  //   setFile(false)
+  // };
   return (
     <div className="w-full min-h-screen bg-gradient-to-br py-20 from-sky-900/90 to-blue-500 flex items-center justify-around">
       <div className="flex gap- items-stretch justify-center">
@@ -119,14 +119,16 @@ export default function Lienzo() {
           <div className="mx-auto flex flex-col gap-3 mb-10 w-full font-medium">
             <div className="w-full inline-block cursor-pointer -mt-2">
               <h2 className="font-bold">Formas</h2>
-              {shapes?.slice(0, 3).map((element, i) => (
-                <ItemsMenu
-                  imagen={element.imagen}
-                  descripcion={element.descripcion}
-                  key={i}
-                  indice={i}
-                />
-              ))}
+              <ul>
+                {shapes?.slice(0, 3).map((element, i) => (
+                  <ItemsMenu
+                    imagen={element.imagen}
+                    descripcion={element.descripcion}
+                    key={i}
+                    indice={i}
+                  />
+                ))}
+              </ul>
               <label
                 htmlFor="fillColor"
                 className="w-full inline-block  p-2 font-medium cursor-pointer"
@@ -228,7 +230,7 @@ export default function Lienzo() {
               </ul>
             </div>
             <button
-              onClick={() => shapesSelect("limpiarLienzo")}
+              onClick={() => limpiarLienzo(ctx, 800, 550)}
               className=" w-full py-2 border-2 rounded-lg font-bold hover:bg-gray-200 mt-4 text-sm"
             >
               Limpiar Lienzo
@@ -242,16 +244,16 @@ export default function Lienzo() {
           </div>
         </div>
 
-      
         <PaintDraw
+          canvasRef={canvasRef}
+          ctx={ctx}
           selectTools={selectTools}
-          className={"border-2 rounded mx-auto bg-white"}
+          className={"border-2 rounded mx-auto bg-white block"}
           setupCanvas={setupCanvas}
           height={550}
           width={800}
-          
         />
-    {/* <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
+        {/* <div className="mx-auto h-5/6 flex flex-col bg-white w-2/12 rounded-lg overflow-hidden p-5 shadow-lg text-gray-700">
           <div className="mx-auto flex flex-col gap-3 mb-10 w-full font-medium">
             <div className="w-full inline-block cursor-pointer -mt-2">
               {previewURL && (

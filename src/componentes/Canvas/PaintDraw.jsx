@@ -4,28 +4,23 @@ import { useEffect, useState } from "react";
 export default function PaintDraw({
   width,
   height,
+  canvasRef,
   className,
   setupCanvas,
- 
   selectTools,
- 
+  canvas,
+  ctx,
 }) {
   const [isDrawing, setIsDrawing] = useState(false);
   const [prevPoint, setPrevPoint] = useState(null);
   const [snapshot, setSnapshot] = useState(false);
-  const canvasRef = useRef(null);
-  const canvas = canvasRef.current;
-  const ctx = canvas?.getContext("2d");
 
   useEffect(() => {
     if (!canvas) return;
-  
-    ctx.fillStyle="#ffffff"
-    ctx.fillRect(0,0,width,height)
-  
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
   }, []);
-
-
 
   //funciones
   function draw(e) {
@@ -42,15 +37,14 @@ export default function PaintDraw({
       triangulo(ctx, setupCanvas, point, prevPoint);
     } else if (selectTools === "Borrador") {
       borrador(ctx, setupCanvas, point, prevPoint);
-    } else if (selectTools === "limpiarLienzo") {
-      limpiarLienzo(ctx, width, height);
-    }else if (selectTools === "Pintar Lienzo") {
-      pintarLienzo(ctx,setupCanvas, width, height);
+    } else if (selectTools === "Pintar Lienzo") {
+      pintarLienzo(ctx, setupCanvas, width, height);
     }
   }
   // funcion para marcar las coordenadas dentro del lienzo
   const computePointInCanvas = (clientX, clientY) => {
     if (canvasRef.current) {
+      console.log(clientX)
       const boundigRect = canvasRef.current.getBoundingClientRect();
 
       return {
@@ -148,23 +142,15 @@ export default function PaintDraw({
     setIsDrawing(false);
   }
 
-  // limpiar lienzo
+  // pintar lienzo
 
-  const limpiarLienzo = () => {
+  const pintarLienzo = (ctx, setupCanvas, width, height) => {
+    ctx.fillStyle = setupCanvas.lienzo || "#ffffff";
+    ctx.fillRect(0, 0, width, height);
   };
-// pintar lienzo
-
-const pintarLienzo =(ctx,setupCanvas,width,height)=>{
-  ctx.fillStyle=setupCanvas.lienzo || "#ffffff"
-  ctx.fillRect(0,0,width,height)
-}
 
   // cargar Imagen
 
-
-
-
-  
   return (
     <canvas
       onMouseMove={draw}
