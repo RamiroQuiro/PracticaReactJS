@@ -4,6 +4,7 @@ import home from '../img/svg/home.svg'
 import calculator from '../img/svg/calculator.svg'
 import shortURL from '../img/svg/shortURL.svg'
 import galeria from '../img/svg/galeria.svg'
+import canvas from '../img/svg/canvas.svg'
 
 export default function Menu() {
 
@@ -40,9 +41,9 @@ const menu=[
   img:galeria,
 },
 {
-  name:"Galeria",
+  name:"Canvas",
   path:"/canvas",
-  img:galeria,
+  img:canvas,
 },
 ]
 

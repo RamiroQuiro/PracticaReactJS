@@ -4,6 +4,7 @@ import calculator from "../img/svg/calculatorCard.svg";
 import shortURL from "../img/svg/shortURLCard.svg";
 import galeria from "../img/svg/galeriaColor.svg";
 import Cards from "./home/Cards";
+import canvas from '../img/svg/canvasHome.svg'
 
 export default function Home() {
   const app = [
@@ -39,6 +40,14 @@ export default function Home() {
       imagen: galeria,
       link: "/galeriaTailwinsCss",
       repo: "//github.com/RamiroQuiro/PracticaReactJS/tree/main/src/componentes/GaleriaFotos",
+    },
+    {
+      titulo: "Canvas html5",
+      descripcion:
+        "Aprendiendo y practicando los princiios de esta poderosa herramienta que es el canvas",
+      imagen: canvas,
+      link: "/canvas",
+      repo: "//github.com/RamiroQuiro/PracticaReactJS/tree/main/src/componentes/Canvas",
     },
   ];
 
