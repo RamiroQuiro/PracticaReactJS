@@ -45,6 +45,11 @@ const menu=[
   path:"/canvas",
   img:canvas,
 },
+{
+  name:"Canvas",
+  path:"/editPhoto",
+  img:canvas,
+},
 ]
 
 

@@ -10,6 +10,7 @@ import Calculadora from '../componentes/Calculadora/Calculadora'
 import Tiktok from '../componentes/TikTok/Tiktok'
 import GaleriaNoticias from '../componentes/GaleriaFotos/GaleriaNoticias'
 import CanvasSite from '../componentes/Canvas/CanvasSite'
+import CanvasImagenes from '../componentes/EditorImagen/CanvasImagenes'
 
 export default function AppRouter() {
 
@@ -24,6 +25,7 @@ export default function AppRouter() {
       <Route path='calculadora' element={<Calculadora/>}/>
       <Route path='galeriaTailwinsCss' element={<GaleriaNoticias/>}/>
       <Route path='canvas' element={<CanvasSite/>}/>
+      <Route path='editPhoto' element={<CanvasImagenes/>}/>
      
       <Route path="*" element={<NotFound />} />
     </Route>
