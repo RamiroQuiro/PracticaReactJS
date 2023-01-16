@@ -46,10 +46,15 @@ const menu=[
   img:canvas,
 },
 {
-  name:"Canvas",
-  path:"/editPhoto",
+  name:"Repositorios",
+  path:"/queryRepo",
   img:canvas,
 },
+// {
+//   name:"Canvas",
+//   path:"/editPhoto",
+//   img:canvas,
+// },
 ]
 
 

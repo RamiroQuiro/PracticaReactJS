@@ -11,6 +11,7 @@ import Tiktok from '../componentes/TikTok/Tiktok'
 import GaleriaNoticias from '../componentes/GaleriaFotos/GaleriaNoticias'
 import CanvasSite from '../componentes/Canvas/CanvasSite'
 import CanvasImagenes from '../componentes/EditorImagen/CanvasImagenes'
+import QueryRepositorios from '../componentes/RepositorioGitHub/QueryRepositorios'
 
 export default function AppRouter() {
 
@@ -26,6 +27,8 @@ export default function AppRouter() {
       <Route path='galeriaTailwinsCss' element={<GaleriaNoticias/>}/>
       <Route path='canvas' element={<CanvasSite/>}/>
       <Route path='editPhoto' element={<CanvasImagenes/>}/>
+      <Route path='queryRepo' element={<QueryRepositorios/>}/>
+     
      
       <Route path="*" element={<NotFound />} />
     </Route>
