@@ -9,7 +9,7 @@ export default function Layout() {
       <header>
         <Menu/>
       </header>
-      <main>
+      <main className="overflow-x-hidden">
         <Outlet/>
       </main>
       <Footer/>

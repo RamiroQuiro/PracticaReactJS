@@ -80,14 +80,12 @@ if (isLoading)return <div>Loading...</div>
 
     <tbody>
       {data?.map((repo) => (
-        // <TableBody
-        //   repository={repo}
-        //   isFavorite={favoriteReposID.includes(repo.id)}
-        //   key={repo.id}
+        <TableBody
+          repository={repo}
+          isFavorite={favoriteReposID.includes(repo.id)}
+          key={repo.id}
         
-        // />
-
-        <div>oha</div>
+        />
       ))}
     </tbody>
   </table>

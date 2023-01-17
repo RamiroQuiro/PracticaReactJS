@@ -37,7 +37,8 @@ export default function TableBody({ repository, isFavorite }) {
       </td>
       <td className="px-2 py-3 font-light text-xs cursor-pointer duration-100 text-center hover:bg-gray-500/50" onClick={handleFavorite}>
          {/* <img src={isFavorite ? like:dislike} alt="like" className="w-10 mx-auto duration-500"/> */}
-        {/* <LikeSVG  className={`${isFavorite? "fill-neutral-700/80":" fill-blue-700"} duration-300 mx-auto`}    isToggle={isFavorite}/> */}
+        <LikeSVG  className={`${isFavorite? "fill-neutral-700/80":" fill-blue-700"} duration-300 mx-auto`}    isToggle={isFavorite}
+              />
       </td>
     </tr>
   );

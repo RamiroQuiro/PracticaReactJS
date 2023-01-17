@@ -5,6 +5,7 @@ import shortURL from "../img/svg/shortURLCard.svg";
 import galeria from "../img/svg/galeriaColor.svg";
 import Cards from "./home/Cards";
 import canvas from '../img/svg/canvasHome.svg'
+import GitHub from '../img/svg/git1.svg'
 
 export default function Home() {
   const app = [
@@ -48,6 +49,14 @@ export default function Home() {
       imagen: canvas,
       link: "/canvas",
       repo: "//github.com/RamiroQuiro/PracticaReactJS/tree/main/src/componentes/Canvas",
+    },
+    {
+      titulo: "ReactQuery-Zustand",
+      descripcion:
+        "Practica usando la API de Repositorios de GitHub, aplicando ReactQuery y  Zustand",
+      imagen: GitHub,
+      link: "/queryRepo",
+      repo: "//github.com/RamiroQuiro/PracticaReactJS/tree/main/src/componentes/RepositorioGitHub",
     },
   ];
 

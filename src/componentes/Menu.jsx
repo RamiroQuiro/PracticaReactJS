@@ -5,7 +5,7 @@ import calculator from '../img/svg/calculator.svg'
 import shortURL from '../img/svg/shortURL.svg'
 import galeria from '../img/svg/galeria.svg'
 import canvas from '../img/svg/canvas.svg'
-
+import git from '../componentes/RepositorioGitHub/img/git6.svg'
 export default function Menu() {
 
   
@@ -46,9 +46,9 @@ const menu=[
   img:canvas,
 },
 {
-  name:"Repositorios",
+  name:"Repo",
   path:"/queryRepo",
-  img:canvas,
+  img:git,
 },
 // {
 //   name:"Canvas",
@@ -59,7 +59,7 @@ const menu=[
 
 
   return (
-    <div className='flex w-screen mx-auto justify-center items-center fixed z-50 text-gray-700'>
+    <div className='flex w-screen mx-auto justify-center items-center fixed z-[70] text-gray-700'>
         <nav className='flex md:w-4/12 justify-around items-center text-sm font-bold py-6 shadow-lg  overflow-y-hidden h-9 hover:h-14 -translate-y-2.5 hover:translate-y-0 duration-300 bg-gradient-to-tr from-gray-50/80 via-gray-50/80 to-gray-200/70 backdrop-blur-sm rounded-b-3xl'>
 
           {menu.map((item,index)=>(

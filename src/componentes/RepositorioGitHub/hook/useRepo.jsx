@@ -1,4 +1,4 @@
-import { useQuery , QueryFunctionContext} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import api from "../api/gitHub";
 
 async function fetchRepos({queryKey}) {

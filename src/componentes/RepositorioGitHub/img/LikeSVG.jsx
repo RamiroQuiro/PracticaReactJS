@@ -3,16 +3,17 @@ import * as React from "react";
 
 const variants = {
   rotate: {
-    rotate: [0, 20, 0],
-    scale: [1, 1.3, 1.2],
-    transition: { duration: 0.75 },
+    rotate: [0, 10, 0],
+    scale: [1, 1.4, 1.2],
+    transition: { duration: 0.50 },
     fill: "#EA580C",
   },
   // You can do whatever you want here, if you just want it to stop completely use `rotate: 0`
   stop: {
     rotate: [0, 30, 0],
     scale: [1.2, 1.3, 1],
-    transition: { duration: 0.75 },
+
+    transition: { duration: 0.50 },
     fill: "#22272E",
   },
 };
